@@ -11,6 +11,8 @@
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         
+        char decision = 'y';
+        
         do {
             // 255 unit long array of characters
             char inputChars[255];
@@ -22,6 +24,7 @@ int main(int argc, const char * argv[]) {
             // convert char array to an NSString object
             NSString *inputString = [NSString stringWithUTF8String:inputChars];
             inputString = [inputString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+//            NSLog(@"%d", [inputString intValue]);
             
             // print NSString object
             NSLog(@"Input was: %@", inputString);
@@ -41,13 +44,15 @@ int main(int argc, const char * argv[]) {
                 printf("3. Numberize-it\n");
                 printf("4. Canadianize-it\n");
                 printf("5. De-space-it\n");
+                printf("6. Count-the-words-in-it\n");
                 
-                char operation = getchar();
-                NSLog(@"%c", operation);
+                char operation[3];
+                fgets(operation, 3, stdin);
+                NSLog(@"%s", operation);
                 
                 NSString *convertedString;
                 
-                switch (operation) {
+                switch (operation[0]) {
                     case '1':
                         convertedString = [inputString uppercaseString];
                         NSLog(@"%@",convertedString);
@@ -57,24 +62,35 @@ int main(int argc, const char * argv[]) {
                         NSLog(@"%@",convertedString);
                         break;
                     case '3':
-                        convertedString = [inputString lowercaseString];
-                        NSLog(@"%@",convertedString);
+                        if ([inputString intValue] != 0) {
+                            NSLog(@"%d", [inputString intValue]);
+                        } else {
+                            NSLog(@"Your input is not numerical.");
+                        }
                         break;
                     case '4':
                         convertedString = [inputString stringByAppendingString:@", eh?"];
                         NSLog(@"%@",convertedString);
                         break;
                     case '5':
-                        convertedString = [inputString lowercaseString];
+                        convertedString = [inputString stringByReplacingOccurrencesOfString:@" " withString:@"-"];
                         NSLog(@"%@",convertedString);
+                        break;
+                    case '6':
                         break;
                     default:
                         break;
                 }
-                
-                printf("You wanna do this again? (y/n)");
             }
-        } while (false);
+            
+            printf("You wanna do this again? (y/n)\n");
+            decision = getchar();
+            NSLog(@"%c", decision);
+            
+            char throwaway[3];
+            fgets(throwaway, 3, stdin);
+            
+        } while (decision == 'y');
         
     }
     return 0;
