@@ -24,7 +24,6 @@ int main(int argc, const char * argv[]) {
             // convert char array to an NSString object
             NSString *inputString = [NSString stringWithUTF8String:inputChars];
             inputString = [inputString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-//            NSLog(@"%d", [inputString intValue]);
             
             // print NSString object
             NSLog(@"Input was: %@", inputString);
@@ -45,12 +44,15 @@ int main(int argc, const char * argv[]) {
                 printf("4. Canadianize-it\n");
                 printf("5. De-space-it\n");
                 printf("6. Count-the-words-in-it\n");
+                printf("7. De-punctualize-it\n");
                 
                 char operation[3];
                 fgets(operation, 3, stdin);
                 NSLog(@"%s", operation);
                 
                 NSString *convertedString;
+                
+                NSArray *words = [inputString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
                 
                 switch (operation[0]) {
                     case '1':
@@ -77,6 +79,11 @@ int main(int argc, const char * argv[]) {
                         NSLog(@"%@",convertedString);
                         break;
                     case '6':
+                        NSLog(@"There are %lu words in your input.", (unsigned long)[words count]);
+                        break;
+                    case '7':
+                        convertedString = [[inputString componentsSeparatedByCharactersInSet:[NSCharacterSet punctuationCharacterSet]] componentsJoinedByString:@""];
+                        NSLog(@"%@",convertedString);
                         break;
                     default:
                         break;
@@ -85,7 +92,6 @@ int main(int argc, const char * argv[]) {
             
             printf("You wanna do this again? (y/n)\n");
             decision = getchar();
-            NSLog(@"%c", decision);
             
             char throwaway[3];
             fgets(throwaway, 3, stdin);
